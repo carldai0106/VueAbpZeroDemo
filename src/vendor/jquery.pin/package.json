@@ -1,0 +1,88 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "jquery.pin",
+        "scope": null,
+        "escapedName": "jquery.pin",
+        "name": "jquery.pin",
+        "rawSpec": "",
+        "spec": "latest",
+        "type": "tag"
+      },
+      "D:\\mywork\\vue\\Dyh.Auth"
+    ]
+  ],
+  "_from": "jquery.pin@latest",
+  "_id": "jquery.pin@1.0.1",
+  "_inCache": true,
+  "_location": "/jquery.pin",
+  "_nodeVersion": "5.7.0",
+  "_npmOperationalInternal": {
+    "host": "packages-16-east.internal.npmjs.com",
+    "tmp": "tmp/jquery.pin-1.0.1.tgz_1464168896961_0.27225354849360883"
+  },
+  "_npmUser": {
+    "name": "koyeo",
+    "email": "guyue.me@gmail.com"
+  },
+  "_npmVersion": "3.6.0",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "jquery.pin",
+    "scope": null,
+    "escapedName": "jquery.pin",
+    "name": "jquery.pin",
+    "rawSpec": "",
+    "spec": "latest",
+    "type": "tag"
+  },
+  "_requiredBy": [
+    "#DEV:/",
+    "#USER"
+  ],
+  "_resolved": "https://registry.npmjs.org/jquery.pin/-/jquery.pin-1.0.1.tgz",
+  "_shasum": "93f5f25bd2fb7d32c63fd8f0153a9a9cb3bde6a8",
+  "_shrinkwrap": null,
+  "_spec": "jquery.pin",
+  "_where": "D:\\mywork\\vue\\Dyh.Auth",
+  "author": "",
+  "bugs": {
+    "url": "https://github.com/koyeo/jquery.pin/issues"
+  },
+  "dependencies": {
+    "webpack-zepto": "0.0.1"
+  },
+  "description": "jquery pin plugin",
+  "devDependencies": {},
+  "directories": {},
+  "dist": {
+    "shasum": "93f5f25bd2fb7d32c63fd8f0153a9a9cb3bde6a8",
+    "tarball": "https://registry.npmjs.org/jquery.pin/-/jquery.pin-1.0.1.tgz"
+  },
+  "gitHead": "7aae4cd7fa5b9467ea7efc75909aff8e60446bfc",
+  "homepage": "https://github.com/koyeo/jquery.pin#readme",
+  "keywords": [
+    "jquery",
+    "pin"
+  ],
+  "license": "MIT",
+  "main": "jquery.pin.js",
+  "maintainers": [
+    {
+      "name": "koyeo",
+      "email": "guyue.me@gmail.com"
+    }
+  ],
+  "name": "jquery.pin",
+  "optionalDependencies": {},
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/koyeo/jquery.pin.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "1.0.1"
+}

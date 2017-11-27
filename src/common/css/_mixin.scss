@@ -1,0 +1,78 @@
+@mixin body-style($fsize, $fcolor, $bgcolor) {
+    font-size: $fsize;
+    color: $fcolor;
+    background-color: $bgcolor;
+}
+
+@mixin singline() {
+    word-break: keep-all;
+    /* 不换行 */
+    white-space: nowrap;
+    /* 不换行 */
+    overflow: hidden;
+    /* 内容超出宽度时隐藏超出部分的内容 */
+    text-overflow: ellipsis;
+    /* 当对象内文本溢出时显示省略标记(...) ；需与overflow:hidden;一起使用。*/
+}
+
+%singline {
+    @include singline();
+}
+
+//两端对齐
+%justify {
+    text-align: justify;
+    text-align-last: justify;
+    &:after {
+        content: "";
+        display: inline-block;
+        position: relative;
+        height: 1px;
+        line-height: 0;
+        width: 100%;
+        z-index: -1;
+    }
+    >* {
+        text-align: left;
+        text-align-last: left;
+    }
+}
+
+%teststyle {
+    color: black !important;
+    background: red !important;
+}
+
+//个人中心右侧箭头图标
+@mixin icon-arrow() {
+    top: 50%;
+    position: absolute;
+    right: 15px;
+    color: #c6c6c6;
+    display: block;
+    width: px2rem(30);
+    height: px2rem(30);
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    -webkit-transform: rotate(-45deg);
+    margin-top: px2rem(-15);
+}
+
+// 绝对居中
+%absoluteCenter {
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+}
+
+// 水平居中对齐
+%horizontalCenter {
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+// 竖直对齐
+%verticalCenter {
+    top: 50%;
+    transform: translateY(-50%);
+}
