@@ -198,8 +198,8 @@ export default {
 
 <style lang="scss" rel="stylesheet/scss">
 .chat-user-form {
-    border-top: 1px solid rgb(54, 66, 76);
-    margin-top: 10px;
+    position: absolute;
+    bottom: 0;
     padding: 0 10px 10px 10px;
     .progress-wrapper {
         padding: 5px 0;

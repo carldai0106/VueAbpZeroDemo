@@ -50,8 +50,8 @@ const store = new Vuex.Store({
     //         state.isReload = isReload;
     //     }
     // },
-    // strict: config.isDebug,
-    strict: false,
+    strict: config.isDebug,
+    // strict: false,
     plugins: plugins
 });
 

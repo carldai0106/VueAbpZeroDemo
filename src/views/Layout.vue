@@ -47,11 +47,10 @@
         <footer class="main-footer">
             <!-- To the right -->
             <div class="pull-right hidden-xs">
-                Anything you want
+               v 1.0
             </div>
             <!-- Default to the left -->
-            <strong>Copyright &copy; 2016
-                <a href="#">Company</a>.</strong> All rights reserved.
+            <strong>© Copyright, DYH Company Inc. {{Year}}, </strong> All rights reserved.
         </footer>
 
         <!-- Control Sidebar -->
@@ -71,6 +70,7 @@ import SideBarMenu from '../components/sidebar/SideBarMenu';
 export default {
     data() {
         return {
+            Year: new Date().getFullYear(),
             menu: []
         };
     },

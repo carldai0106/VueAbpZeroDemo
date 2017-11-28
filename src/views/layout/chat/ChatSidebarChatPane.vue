@@ -1,8 +1,11 @@
 <template>
     <div class="chat-sidebar-chat">
         <div class="chat-sidebar-chat-nav">
-            <a @click="backToChatUser" href="#" class="text-left">
+            <a @click="backToChatUser" href="#" class="text-left pull-left">
                 <i class="fa fa-arrow-circle-left"></i> {{L("Back")}}
+            </a>
+            <a @click="closeChatPane" href="#" class="text-left pull-right">
+                <i class="fa fa-remove"></i>
             </a>
             <div class="clearfix"></div>
         </div>
@@ -127,6 +130,9 @@ export default {
                 ChatSidebarHelper.selectedUser = {};
             }, 300);
         },
+        closeChatPane() {
+            ChatSidebarHelper.isOpen = false;
+        },
         getShownUserName(tenancyName, userName) {
             return ChatSidebarHelper.getShownUserName(tenancyName, userName);
         },
@@ -154,14 +160,17 @@ export default {
         },
         async setMessages() {
             let friend = this.selectedUser;
-            const chatUser = ChatSidebarHelper.getFriendOrNull(
+            const result = ChatSidebarHelper.getFriendWithIndex(
                 friend.friendUserId,
                 friend.friendTenantId
             );
-            this.selectedUser = chatUser;
-            if (!chatUser) {
+
+            if (!result) {
                 return;
             }
+
+            this.selectedUser = result.friend;
+            var chatUser = result.friend;
 
             if (!chatUser.messagesLoaded) {
                 await ChatSidebarHelper.loadMessages(chatUser, () => {
@@ -173,7 +182,7 @@ export default {
                 });
             } else {
                 await ChatSidebarHelper.markAllUnreadMessagesOfUserAsRead(
-                    this.selectedUser
+                    result
                 );
                 ChatSidebarHelper.scrollToBottom();
                 this.tagIsReady('#chatMessageInput', () => {
@@ -196,13 +205,13 @@ export default {
     margin-left: 0;
 }
 .chat-sidebar-chat {
-    position: absolute !important;
     width: 320px !important;
     transition: margin 0.3s;
     margin-left: 320px;
     .chat-sidebar-chat-nav {
+        border-bottom: 1px solid rgb(54, 66, 76);
         a {
-            padding: 0 10px;
+            padding: 4px 15px 0 15px;
             display: block;
             line-height: 38px;
             i {
@@ -260,6 +269,7 @@ export default {
     .direct-chat-messages-wrapper {
         padding: 0 10px;
         position: relative;
+        border-bottom: 1px solid rgb(54, 66, 76);
         .direct-chat-msg {
             .direct-chat-text {
                 border: none;

@@ -37,16 +37,6 @@ export default {
     mounted() {
         this.message = this.messageData;
         this.setChatMessageType();
-        this.$nextTick(() => {
-            $('#chatImageUpload')
-                .find('.fa-plus')
-                .addClass('fa-camera')
-                .removeClass('fa-plus');
-            $('#chatFileUpload')
-                .find('.fa-plus')
-                .addClass('fa-file')
-                .removeClass('fa-plus');
-        });
     },
     methods: {
         setChatMessageType() {

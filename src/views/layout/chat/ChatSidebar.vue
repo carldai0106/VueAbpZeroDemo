@@ -10,7 +10,8 @@
 </template>
 
 <script type="text/ecmascript-6">
-import { mapState } from 'vuex';
+import { mapState, mapMutations } from 'vuex';
+import * as mTypes from '../../../store/mutation-types';
 import types from '../../../common/types';
 import ChatSidebarHelper from './ChatSidebarHelper';
 import ChatSidebarUserPane from './ChatSidebarUserPane';
@@ -57,47 +58,43 @@ export default {
         this.registerEvents();
     },
     methods: {
+        ...mapMutations({
+            setOnline: mTypes.CHAT_SET_FRIEND_IS_ONLINE,
+            setState: mTypes.CHAT_SET_FRIEND_STATE,
+            setUnreadCount: mTypes.CHAT_SET_FRIEND_UNREAD_COUNT,
+            setReceiverReadState:
+                mTypes.CHAT_SET_FRIEND_MESSAGE_RECEIVER_READ_STATE,
+            setReadState: mTypes.CHAT_SET_FRIEND_MESSAGE_READ_STATE
+        }),
         registerEvents() {
             var self = this;
             abp.event.on('app.chat.messageReceived', async message => {
-                const user = ChatSidebarHelper.getFriendOrNull(
+                let result = ChatSidebarHelper.getFriendWithIndex(
                     message.targetUserId,
                     message.targetTenantId
                 );
-                if (!user) {
+
+                if (!result) {
                     return;
                 }
 
+                var user = result.friend;
                 user.messages = user.messages || [];
-                user.messages.push(message);
+                var newLength = user.messages.push(message);
 
+                console.log(newLength);
                 if (message.side === types.AppChatSide.Receiver) {
-                    let result = ChatSidebarHelper.getFriendOrNull(
-                        message.targetUserId,
-                        message.targetTenantId
-                    );
+                    var unreadMessageCount = user.unreadMessageCount + 1;
+                    this.setUnreadCount({
+                        index: result.index,
+                        count: unreadMessageCount
+                    });
+                    this.setReadState({
+                        friendIndex: result.index,
+                        msgIndex: newLength - 1,
+                        readState: types.AppChatMessageReadState.Unread
+                    });
 
-                    if (!result) {
-                        return;
-                    }
-
-                    user.unreadMessageCount += 1;
-                    message.readState = types.AppChatMessageReadState.Unread;
-
-                    // this.$set(
-                    //     this.$store.state.chat.friends[result.index],
-                    //     'unreadMessageCount',
-                    //     count
-                    // );
-                    // this.$set(
-                    //     this.$store.state.chat.selectedUser.messages[
-                    //         newLen - 1
-                    //     ],
-                    //     'readState',
-                    //     types.AppChatMessageReadState.Unread
-                    // );
-                    // selectedChatUser.messages
-                    console.log('readState');
                     ChatSidebarHelper.triggerUnreadMessageCountChangeEvent();
                     let selectedUser = ChatSidebarHelper.selectedUser;
                     if (
@@ -107,9 +104,7 @@ export default {
                         user.friendUserId === selectedUser.friendUserId
                     ) {
                         console.log('markAllUnreadMessagesOfUserAsRead');
-                        await ChatSidebarHelper.markAllUnreadMessagesOfUserAsRead(
-                            user
-                        );
+                        await ChatSidebarHelper.markAllUnreadMessagesOfUserAsRead(user);
                     } else {
                         abp.notify.info(
                             abp.utils.formatString(
@@ -170,51 +165,64 @@ export default {
             );
 
             abp.event.on('app.chat.userConnectionStateChanged', data => {
-                const user = ChatSidebarHelper.getFriendOrNull(
+                let result = ChatSidebarHelper.getFriendWithIndex(
                     data.friend.userId,
                     data.friend.tenantId
                 );
-                if (!user) {
+                if (!result) {
                     return;
                 }
-                user.isOnline = data.isConnected;
+                this.setOnline({
+                    index: result.index,
+                    isOnline: data.isConnected
+                });
             });
 
             abp.event.on('app.chat.userStateChanged', data => {
-                const user = ChatSidebarHelper.getFriendOrNull(
+                const result = ChatSidebarHelper.getFriendWithIndex(
                     data.friend.userId,
                     data.friend.tenantId
                 );
-                if (!user) {
+                if (!result) {
                     return;
                 }
-                user.state = data.state;
+
+                this.setState({
+                    index: result.index,
+                    status: data.state
+                });
             });
 
             abp.event.on('app.chat.allUnreadMessagesOfUserRead', data => {
-                const user = ChatSidebarHelper.getFriendOrNull(
+                const result = ChatSidebarHelper.getFriendWithIndex(
                     data.friend.userId,
                     data.friend.tenantId
                 );
-                if (!user) {
+                if (!result) {
                     return;
                 }
 
-                user.unreadMessageCount = 0;
+                this.setUnreadCount({
+                    index: result.index,
+                    count: 0
+                });
                 ChatSidebarHelper.triggerUnreadMessageCountChangeEvent();
             });
 
             abp.event.on('app.chat.readStateChange', data => {
-                const user = ChatSidebarHelper.getFriendOrNull(
+                const result = ChatSidebarHelper.getFriendWithIndex(
                     data.friend.userId,
                     data.friend.tenantId
                 );
-                if (!user) {
+                if (!result) {
                     return;
                 }
-                $.each(user.messages, (index, message) => {
-                    message.receiverReadState =
-                        types.AppChatMessageReadState.Read;
+                $.each(result.messages, (index, message) => {
+                    this.setReceiverReadState({
+                        friendIndex: result.index,
+                        msgIndex: index,
+                        receiverReadState: types.AppChatMessageReadState.Read
+                    });
                 });
             });
 
@@ -249,11 +257,12 @@ export default {
 }
 .chat-sidebar-wrapper {
     .control-sidebar {
-        position: absolute;
+        position: fixed;
         overflow: hidden;
         padding-top: 0;
-        top: 50px;
-        bottom: 49px;
+        top: 0;
+        bottom: 0;
+        z-index: 1200;
     }
 }
 </style>

@@ -1,5 +1,11 @@
 <template>
     <div class="chat-sidebar-users">
+        <div class="chat-sidebar-users-nav">
+            <a @click="closeChatPane" href="#" class="text-left pull-left">
+                <i class="fa fa-remove"></i>
+            </a>
+            <div class="clearfix"></div>
+        </div>
         <ul class="chat-sidebar-users-search">
             <li>
                 <div class="input-icon input-icon-sm right">
@@ -170,6 +176,9 @@ export default {
                 abp.features.isEnabled('App.ChatFeature.TenantToHost') ||
                 !this.tenant;
         },
+        closeChatPane() {
+            ChatSidebarHelper.isOpen = false;
+        },
         getFilteredFriends(state, userName) {
             const foundFriends = _.filter(
                 this.friends,
@@ -247,6 +256,17 @@ export default {
     position: absolute !important;
     width: 320px !important;
     transition: all 0.3s ease;
+    .chat-sidebar-users-nav {       
+        border-bottom: 1px solid rgb(54, 66, 76);
+        a {
+            padding: 4px 15px 0 15px;
+            display: block;
+            line-height: 38px;
+            i {
+                font-size: 18px;
+            }
+        }
+    }
     .chat-sidebar-users-search {
         margin: 0;
         padding: 0;

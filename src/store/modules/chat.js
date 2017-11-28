@@ -24,6 +24,30 @@ const mutations = {
     [types.CHAT_SET_FRIENDS](state, { friends }) {
         state.friends = friends;
     },
+    [types.CHAT_SET_FRIEND_OF_FRIENDS](state, { index, friend }) {
+        state.friends[index] = friend;
+    },
+    [types.CHAT_SET_FRIEND_IS_ONLINE](state, { index, isOnline }) {
+        state.friends[index].isOnline = isOnline;
+    },
+    [types.CHAT_SET_FRIEND_STATE](state, { index, status }) {
+        state.friends[index].state = status;
+    },
+    [types.CHAT_SET_FRIEND_UNREAD_COUNT](state, { index, count }) {
+        state.friends[index].unreadMessageCount = count;
+    },
+    [types.CHAT_SET_FRIEND_MESSAGES](state, { index, messages }) {
+        state.friends[index].messages = messages;
+    },
+    [types.CHAT_SET_MESSAGE_FROM_FRIEND](state, { friendIndex, msgIndex, message }) {
+        state.friends[friendIndex].messages[msgIndex] = message;
+    },
+    [types.CHAT_SET_FRIEND_MESSAGE_READ_STATE](state, { friendIndex, msgIndex, readState }) {
+        state.friends[friendIndex].messages[msgIndex].readState = readState;
+    },
+    [types.CHAT_SET_FRIEND_MESSAGE_RECEIVER_READ_STATE](state, { friendIndex, msgIndex, receiverReadState }) {
+        state.friends[friendIndex].messages[msgIndex].receiverReadState = receiverReadState;
+    },
     [types.CHAT_SELECTED_USER](state, { selectedUser }) {
         state.selectedUser = selectedUser;
     },

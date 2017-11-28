@@ -21,14 +21,6 @@ let router = new Router({
             redirect: '/dashboard/TenantDashboard'
             // redirect: 'account'
         },
-        {
-            path: '/temp',
-            component: resolve => require(['../views/temp/login.vue'], resolve)
-        },
-        {
-            path: '/temp/login3',
-            component: resolve => require(['../views/temp/login3.vue'], resolve)
-        },
         ...account,
         {
             path: '/',

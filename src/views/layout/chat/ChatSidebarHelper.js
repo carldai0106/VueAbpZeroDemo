@@ -65,7 +65,7 @@ function slimScrollChatMessages(callback) {
     var $slimScroll = chatMessages.slimScroll({
         allowPageScroll: true,
         size: '7px',
-        height: chatMessagesHeight - 20,
+        height: chatMessagesHeight,
         disableFadeOut: true
     });
     if (callback) {
@@ -75,9 +75,14 @@ function slimScrollChatMessages(callback) {
 
 class ChatSidebarHelper {
     set isOpen(newValue) {
+        console.log('isopen  ' + newValue);
         if (store.state.chat.isOpen != newValue) {
             if (newValue == null) {
                 newValue = false;
+            }
+
+            if (newValue == false) {
+                $('.control-sidebar').removeClass('control-sidebar-open');
             }
 
             store.commit(mTypes.CHAT_SET_OPEN, { isOpen: newValue });
@@ -247,7 +252,9 @@ class ChatSidebarHelper {
         return profilePicture;
     }
 
-    async markAllUnreadMessagesOfUserAsRead(user) {
+    async markAllUnreadMessagesOfUserAsRead(result) {
+        var user = result.friend;
+
         if (!user || !this.isOpen) {
             return;
         }
@@ -268,9 +275,18 @@ class ChatSidebarHelper {
 
         await ChatService.markAllUnreadMessagesOfUserAsRead(input);
 
-        _.forEach(user.messages, message => {
+        var rs = this.getFriendWithIndex(
+            user.friendUserId,
+            user.friendTenantId
+        );
+        $.each(user.messages, (index, message) => {
             if (unreadMessageIds.indexOf(message.id) >= 0) {
                 message.readState = types.AppChatMessageReadState.Read;
+                store.commit(mTypes.CHAT_SET_FRIEND_MESSAGE_READ_STATE, {
+                    friendIndex: rs.index,
+                    msgIndex: index,
+                    receiverReadState: types.AppChatMessageReadState.Read
+                });
             }
         });
     }
@@ -317,12 +333,25 @@ class ChatSidebarHelper {
             minMessageId
         );
 
+        var rs = this.getFriendWithIndex(
+            user.friendUserId,
+            user.friendTenantId
+        );
+
         if (!user.messages) {
-            user.messages = [];
+            store.commit(mTypes.CHAT_SET_FRIEND_MESSAGES, {
+                index: rs.index,
+                messages: []
+            });
         }
 
-        user.messages = result.items.concat(user.messages);
+        store.commit(mTypes.CHAT_SET_FRIEND_MESSAGES, {
+            index: rs.index,
+            messages: result.items.concat(user.messages)
+        });
+
         await this.markAllUnreadMessagesOfUserAsRead(user);
+
         if (!result.items.length) {
             user.allPreviousMessagesLoaded = true;
         }
