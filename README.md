@@ -80,24 +80,24 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 
 ### 登录界面
 
-![](\doc\login.png)
+![](doc\login.png)
 
 ### 新建账号
 
-![](\doc\new_account.png)
+![](doc\new_account.png)
 
 ### Dashboard
 
-![](\doc\dashboard.png)
+![](doc\dashboard.png)
 
 ### Chat
 
-![](\doc\chat.png)
+![](doc\chat.png)
 
 ### Profile
 
-![](\doc\profile.png)
+![](doc\profile.png)
 
 ### Users
 
-![](\doc\users.png)
+![](doc\users.png)
