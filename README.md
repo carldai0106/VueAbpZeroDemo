@@ -1,6 +1,6 @@
 # DYH
 
-### [演示地址](http://www.520coding.net)
+
 
 > 为了学习使用VUE，断断续续在一个多月里使用 Webpack + Vue + Vuex + Vue-Router + axios + ElementUI 以及 AdminLTE 前端模板， 重构了一下 AbpZero 前端。该项目没有任何服务器端脚本，是一个纯粹的客户端项目。代码当中可能有错误，也有可能对某些特性或者对Vue以及Vue下的一些扩展不当使用，如有发现，请您务必在issue里面指正留言，我会一一回复，您的指正和建议是我学习改进的动力。
 
