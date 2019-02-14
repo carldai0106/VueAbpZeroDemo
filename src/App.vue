@@ -8,8 +8,7 @@
 </style>
 
 <template>
-    <div id="app">
-        <!-- <img src="../static/test.jpg" /> -->
+    <div id="app">        
         <router-view/>
     </div>
 </template>
