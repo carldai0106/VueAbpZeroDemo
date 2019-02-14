@@ -46,7 +46,7 @@ const veeConfig = {
     fieldsBagName: 'vee-fields' // 默认为 fields
 };
 Vue.use(VeeValidate, veeConfig);
-
+// 是否为产品模式
 Vue.config.productionTip = false;
 $.extend($.blockUI.defaults, {
     message: 'Loading',
